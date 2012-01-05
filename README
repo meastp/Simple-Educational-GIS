@@ -1,0 +1,5 @@
+Simple, educational GIS - eGIS
+
+A simple inline svg application intended for teaching simple raster operations, buffer, reclassification, in a simple html application.
+
+Can run locally in a web browser, or on a standard web server -- the only requirement is javascript support.

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple Educational GIS Example</title>
+        <link type="text/css" href="jqueryui/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="jqueryui/js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
+        
+        <script src="raphael.js"></script>
+        <style type="text/css">
+        p {
+            width : 50em;
+        }
+        dl dt {
+            font-weight: bold;
+        }
+        dl dd {
+            font-style: italic;
+        }
+        
+        #container {
+            width: 80%;
+            margin-top: 2em;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-bottom: 4em;
+        }
+        #model1 {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+        }
+        </style>
+        <!-- Simple GIS Client Setup -->
+        <script type="text/javascript"></script>
+        <script src="simplegis/data/rasterlayer.js"></script>
+        <script src="simplegis/data/layers.js"></script>
+        <script src="simplegis/data/correct_result.js"></script>
+        <script src="simplegis/io/rasteroperation.js"></script>
+        <script src="simplegis/io/operations.js"></script>
+        <script src="simplegis/io/nodeoperation.js"></script>
+        <script src="simplegis/ui/icons.js"></script>
+        <script src="simplegis/ui/widgets.js"></script>
+        <script src="simplegis/ui/handlers.js"></script>
+        <script src="simplegis/main.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            
+            // create user interface for task1, configure (and add) the END node
+            var model1 = new UserInterface("model1", 
+                                            {
+                                            endnode : { correct_result : correct_result_layer }
+                                            }
+                                       );
+            
+        });
+        </script>
+    </head>
+
+<body>
+<div id="container">
+
+    <h1>Simple, Educational GIS (eGIS)</h1>
+    
+    <h2>Introduction</h2>
+    <p>
+    This page contains example tasks for the eGIS system, and the goal is to teach common operations and methods that are useful for most GIS work. Each task has a description of the desired result, and the data layers .
+    </p>
+    
+    <h2>Using the system</h2>
+    <p>To complete each task, you need to start with one or several data layers, build a binary tree by linking the nodes together with raster operations (AND, OR, NOT, XOR), and reclassify or buffer as needed. To confirm your result, link the result node in your binary tree to the END node in the upper right corner, and doubleclick on the END node.</p>
+    
+    <dl>
+    <dt>data layer</dt>
+    <dd>the data layers you may manipulate in the binary tree</dd>
+    <dt>raster operation (AND)</dt>
+    <dd>A AND B equals the intersection of A and B</dd>
+    <dt>raster operation (OR)</dt>
+    <dd>A OR B equals the union of A and B</dd>
+    <dt>raster operation (NOT)</dt>
+    <dd>A NOT B will return true for every field that is true in A and (must be) false in B</dd>
+    <dt>raster operation (XOR)</dt>
+    <dd>A XOR B will return true if either A NOT B, or B NOT A is true</dd>
+    <dt>reclassify</dt>
+    <dd>create a new layer that e.g. negate the layer or pick a subset if the layer is not boolean</dd>
+    <dt>buffer</dt>
+    <dd>create a buffer around each field in the layer</dd>
+    </dl>
+    
+    <p>
+    To create a node (data layer, raster operation, reclassify or buffer), click on the + (plus) symbol in the icon. If you create several icons at once of the same type, they will be on top of each other (which means you will have to move them to see every node). The configuration is done by clicking on the node's text (select data layer, select type of raster operation, configure reclassify, configure buffer). The tiny circles on each node is used to link nodes together -- hold and drag a circle over another node's circle and release.
+    </p>
+    <p>
+    Doubleclick a node to get a visualization of the data layer
+    </p>
+
+    
+    <div id="task1">
+    <h2>Task 1: Find suitable areas for a farm</h2>
+    <h3>Requirements</h3>
+    <ul>
+    <li>must be closer than 100m (one tile) to road <small>(value 2 in the road and railroad data layer, value 21 indicates both road and railroad)</small></li>
+    <li>must be closer than 200m (two tiles) to water</li>
+    <li>can not be on or close to polluted areas</li>
+    </ul>
+    
+    <div id="model1"></div>
+    
+    <h2>Example solution:</h2>
+    
+    <p>There are a lot of possible ways to get the correct result. Here is one suggestion:</p>
+    
+    <ol>
+    <li>Reclassify the road and railway layer (roadrail) to extract only road (value 2)</li>
+    <li>Create a buffer around road in (1)</li>
+    <li>Add two water layers</li>
+    <li>Buffer two tiles on one of the water layers in (3)</li>
+    <li>Join them with operation NOT</li>
+    <li>Join the two resulting nodes (from (2) and (5)) with operation AND</li>
+    <li>Join pollution layer and (6) with NOT</li>
+    <li>link to END node</li>
+    <li>Doubleclick on END node to visualize and check if the result is correct</li>
+    </ol>
+    
+    <img src="task1_correct_result.png" />
+    </div>
+    
+    <h2>Saving your results</h2>
+    
+    <p>The eGIS system is primarily intended for educational use, and as one or several exercises in a course. To create a report for delivery, simply print this page (to a pdf printer for a digital report).</p>
+    
+</div>
+</body>
+
+</html>
+
