@@ -7,10 +7,18 @@
         <script type="text/javascript" src="jqueryui/js/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
         
+        <!-- Ext -->
+    <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
+    <script type="text/javascript" src="extjs/ext-debug.js"></script>
+        <!-- -->
+        
         <script src="raphael.js"></script>
         <style type="text/css">
         p {
             width : 50em;
+        }
+        dl {
+            margin: 30px 10px;
         }
         dl dt {
             font-weight: bold;
@@ -31,6 +39,13 @@
             height: 600px;
             border: 1px solid black;
         }
+        #operations {
+            width: 720px;
+            height: 470px;
+            /* border: 1px solid black; */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
         </style>
         <!-- Simple GIS Client Setup -->
         <script type="text/javascript"></script>
@@ -44,6 +59,7 @@
         <script src="simplegis/ui/widgets.js"></script>
         <script src="simplegis/ui/handlers.js"></script>
         <script src="simplegis/main.js"></script>
+        <script src="operation_demo.js"></script>
         <script type="text/javascript">
         $(document).ready(function() {
             
@@ -54,6 +70,7 @@
                                             }
                                        );
             
+            main();
         });
         </script>
     </head>
@@ -87,6 +104,11 @@
     <dt>buffer</dt>
     <dd>create a buffer around each field in the layer</dd>
     </dl>
+    
+    <p>Below is a demo of the raster operations. Click on an operation to see the result.</p>
+    
+    
+    <div id="operations"></div>
     
     <p>
     To create a node (data layer, raster operation, reclassify or buffer), click on the + (plus) symbol in the icon. If you create several icons at once of the same type, they will be on top of each other (which means you will have to move them to see every node). The configuration is done by clicking on the node's text (select data layer, select type of raster operation, configure reclassify, configure buffer). The tiny circles on each node is used to link nodes together -- hold and drag a circle over another node's circle and release.
